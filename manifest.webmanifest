@@ -1,0 +1,11 @@
+{
+  "name": "MEAUSA Road Trip",
+  "short_name": "MEAUSA Trip",
+  "description": "Carnet de route Mon Enfant aux USA",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f5ef",
+  "theme_color": "#f7f5ef",
+  "lang": "fr"
+}

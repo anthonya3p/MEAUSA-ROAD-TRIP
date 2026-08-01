@@ -1,0 +1,6 @@
+"use strict";
+var CACHE="meausa-road-trip-v6-1";
+var CORE=["./","./index.html","./styles.css","./app.js","./manifest.webmanifest","./vendor/leaflet/leaflet.css","./vendor/leaflet/leaflet.js","./travel/dallas.webp","./travel/monument-valley.webp","./travel/moab.webp"];
+self.addEventListener("install",function(event){event.waitUntil(caches.open(CACHE).then(function(cache){return cache.addAll(CORE);}).then(function(){return self.skipWaiting();}));});
+self.addEventListener("activate",function(event){event.waitUntil(caches.keys().then(function(keys){return Promise.all(keys.filter(function(key){return key.indexOf("meausa-road-trip-")===0&&key!==CACHE;}).map(function(key){return caches.delete(key);}));}).then(function(){return self.clients.claim();}));});
+self.addEventListener("fetch",function(event){if(event.request.method!=="GET")return;var url=new URL(event.request.url);if(url.origin!==self.location.origin)return;event.respondWith(fetch(event.request).then(function(response){var copy=response.clone();caches.open(CACHE).then(function(cache){cache.put(event.request,copy);});return response;}).catch(function(){return caches.match(event.request).then(function(cached){if(cached)return cached;if(event.request.mode==="navigate")return caches.match("./index.html");return Response.error();});}));});
